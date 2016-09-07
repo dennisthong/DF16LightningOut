@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Lightning on Heroku</title>
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+		<link href="./styles/salesforce-lightning-design-system.css" rel="stylesheet">
+	</head>
+	<body>
+		<div class="container">
+			<div class="jumbotron">
+				<h1>Lightning Out on Heroku - DF16</h1>
+				<button class="btn btn-primary btn-lg" onclick="forceLogin()">
+					Login to Salesforce
+				</button>
+				<button id="caseCreateButton" class="btn btn-primary btn-lg" 
+						onclick="createCaseWidget()" >
+					Create Case Widget
+				</button>
+				<button id="caseResetButton" class="btn btn-primary btn-lg" 
+						onclick="resetCaseWidget()" >
+					Reset Case Widget
+				</button>
+				<div id="caseResult" style="display:block"/>
+			</div>
+			<div id="caseWidget"/>
+
+		</div>
+		<script>
+			var config = {
+				appId: "<%= appId %>",
+				loApp: "<%= loApp %>"
+			};
+		</script>
+		<script src="./javascripts/force.oauth.js"></script>
+		<script src="./javascripts/app.js"></script>
+		<script src="https://df16dthong-dev-ed.my.salesforce.com/lightning/lightning.out.js"></script>
+	</body>
+</html>

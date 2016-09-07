@@ -1,0 +1,86 @@
+<aura:component access="global" controller="CaseCreateController" >
+<!--
+	Dreamforce16 - Lightning Out Demo
+ 	CaseCreateComponent.cmp - Lightning Component
+-->    
+
+    <!-- Obtain the current user name to demonstrate authenticated context -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />    
+    
+    <ltng:require styles="{!$Resource.SLDSv2 + 
+       '/assets/styles/salesforce-lightning-design-system.css'}"/>
+
+    <aura:attribute name="newCase" type="Case"
+                    default="{ 'sobjectType': 'Case',
+                             	'Origin': 'Web',
+                             	'Subject': '',
+                             	'Description': ''}"
+                    description="Represents the new case record"
+                    />
+    <aura:attribute name="currentUser" type="User" description="The currently authenticated user"/>
+    <aura:attribute name="newCaseNumber" type="String" description="The saved case number"/>
+
+    <!-- handles the resetForm event - triggered externally -->
+	<aura:handler event="c:resetForm" action="{!c.reset}"/>
+	<aura:registerEvent name="caseSaveEvent" type="c:caseSave"/>
+    
+    <div aura:id="createPanel">
+        <div class="slds-page-header" role="banner">
+            <div class="slds-media slds-media--center">
+                <div class="slds-media__body">
+                    <h1 class="slds-page-header__title slds-truncate slds-align-middle" title="Create a Case">Create a Case</h1>
+                    <p class="slds-text-body--small page-header__info">{!v.currentUser.FirstName}&nbsp;{!v.currentUser.LastName}</p>
+                </div>
+            </div>
+        </div>    
+
+        <div class="slds-form--stacked" style="padding: 1rem">
+            <div class="slds-form-element">
+                <div class="slds-form-element__control">    
+                    <ui:inputText aura:id="subject" label="Subject" 
+                               class="slds-input"
+                               labelClass="slds-form-element__label"
+                               value="{!v.newCase.Subject}"
+                               placeholder="Enter Subject..."
+                               required="true"
+                               requiredIndicatorClass="is-required"
+                          />
+                </div>
+            </div>
+    
+            <div class="slds-form-element">
+                <div class="slds-form-element__control">    
+                    <ui:inputTextArea aura:id="description" label="Description" 
+                               class="slds-textarea"
+                               labelClass="slds-form-element__label"
+                               value="{!v.newCase.Description}"
+                               placeholder="Enter Case Description..."
+                               required="true"
+                               requiredIndicatorClass="is-required"
+                               rows="5"
+                          />
+                </div>
+            </div>
+    
+            <!-- Submit button -->
+            <ui:button aura:id="submitButton" 
+                       buttonTitle="Submit" 
+                       label="Submit" 
+                       press="{!c.createCase}"/>
+
+        </div>    
+    </div>
+    <!-- Panel initially hidden to display the case # -->
+    <div aura:id="msgPanel" class="hide" style="padding: 1rem">
+        <ui:message title="Success" severity="info" aura:id="msg" >
+            Case {!v.newCaseNumber} has been created.
+        </ui:message>
+        <p/>        
+        <ui:button aura:id="resetButton" 
+                   buttonTitle="Submit another..." 
+                   label="Submit another..." 
+                   press="{!c.reset}"/>
+    </div>
+    
+    
+</aura:component>
